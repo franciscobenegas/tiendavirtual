@@ -49,8 +49,8 @@ export const placeOrder = async (
       const subTotal = product.price * productQuantity;
 
       totals.subTotal += subTotal;
-      totals.tax += subTotal * 0.15;
-      totals.total += subTotal * 1.15;
+      totals.tax += subTotal * 0.1;
+      totals.total += subTotal * 1.1 + 7;
 
       return totals;
     },
@@ -59,7 +59,6 @@ export const placeOrder = async (
 
   // Crear la transacción de base de datos
   try {
-
     const prismaTx = await prisma.$transaction(async (tx) => {
       // 1. Actualizar el stock de los productos
       const updatedProductsPromises = products.map((product) => {
@@ -136,14 +135,11 @@ export const placeOrder = async (
       };
     });
 
-
     return {
       ok: true,
       order: prismaTx.order,
       prismaTx: prismaTx,
-    }
-
-
+    };
   } catch (error: any) {
     return {
       ok: false,

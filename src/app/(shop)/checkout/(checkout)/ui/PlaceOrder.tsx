@@ -117,7 +117,7 @@ export const PlaceOrder = () => {
             "btn-disabled": isPlacingOrder,
           })}
         >
-          Generar Orden
+          Finalizar Compra
         </button>
       </div>
     </div>

@@ -28,25 +28,25 @@ export default function SearchPage({ searchParams }: Props) {
     itemsProduct();
   }, [page]);
 
-  useEffect(() => {
-    itemsProductGender();
-  }, [genero]);
+  // useEffect(() => {
+  //   itemsProductGender();
+  // }, [genero]);
 
   const itemsProduct = async () => {
     const { products, currentPage, totalPages } =
       await getPaginatedProductsWithImages({ page });
-    setProductAll(products);
+    //setProductAll(products);
     setTotalPaginas(totalPages);
     //console.log(products);
   };
 
-  const itemsProductGender = async () => {
-    const { products, currentPage, totalPages } =
-      await getPaginatedProductsWithImages({ page, genero });
-    setProductAll(products);
-    setTotalPaginas(totalPages);
-    //console.log(products);
-  };
+  // const itemsProductGender = async () => {
+  //   const { products, currentPage, totalPages } =
+  //     await getPaginatedProductsWithImages({ page, genero });
+  //   //setProductAll(products);
+  //   setTotalPaginas(totalPages);
+  //   //console.log(products);
+  // };
 
   function handleSearch(e: any) {
     setSearchQuery(e.target.value);
@@ -54,7 +54,7 @@ export default function SearchPage({ searchParams }: Props) {
 
   function handleCheckbox(e: any) {
     const category = e.target.id;
-
+    setGenero(category);
     if (e.target.checked) {
       setSelectedCategories((prevCategories): any => [
         ...prevCategories,

@@ -35,7 +35,7 @@ export default function SearchPage({ searchParams }: Props) {
   const itemsProduct = async () => {
     const { products, currentPage, totalPages } =
       await getPaginatedProductsWithImages({ page });
-    //setProductAll(products);
+    setProductAll(products as never);
     setTotalPaginas(totalPages);
     //console.log(products);
   };

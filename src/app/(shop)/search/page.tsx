@@ -1,177 +1,134 @@
-"use client";
-import Link from "next/link";
-import { IoCartOutline } from "react-icons/io5";
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { any } from "zod";
 import { getPaginatedProductsWithImages } from "@/actions";
-import { Pagination, ProductGrid, ProductGridItem, Title } from "@/components";
-import { Gender } from "@prisma/client";
+import { Pagination, ProductGrid } from "@/components";
+import { IoSearchCircle } from "react-icons/io5";
 
 interface Props {
+  params: {
+    gender: string;
+  };
   searchParams: {
     page?: string;
   };
 }
 
-export default function SearchPage({ searchParams }: Props) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [productsAll, setProductAll] = useState([]);
-  const [totalPaginas, setTotalPaginas] = useState(1);
-  const [genero, setGenero] = useState("");
+export default async function SearchPage({ params, searchParams }: Props) {
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
+  const { products, currentPage, totalPages } =
+    await getPaginatedProductsWithImages({
+      page,
+    });
 
-  console.log(page);
-
-  useEffect(() => {
-    itemsProduct();
-  }, [page]);
-
-  // useEffect(() => {
-  //   itemsProductGender();
-  // }, [genero]);
-
-  const itemsProduct = async () => {
-    const { products, currentPage, totalPages } =
-      await getPaginatedProductsWithImages({ page });
-    setProductAll(products as never);
-    setTotalPaginas(totalPages);
-    //console.log(products);
-  };
-
-  // const itemsProductGender = async () => {
-  //   const { products, currentPage, totalPages } =
-  //     await getPaginatedProductsWithImages({ page, genero });
-  //   //setProductAll(products);
-  //   setTotalPaginas(totalPages);
-  //   //console.log(products);
+  // const onBuscar = () => {
+  //   console.log("Boton ");
   // };
 
-  function handleSearch(e: any) {
-    setSearchQuery(e.target.value);
-  }
-
-  function handleCheckbox(e: any) {
-    const category = e.target.id;
-    setGenero(category);
-    if (e.target.checked) {
-      setSelectedCategories((prevCategories): any => [
-        ...prevCategories,
-        category,
-      ]);
-    } else {
-      setSelectedCategories((prevCategories) =>
-        prevCategories.filter((prevCategory) => prevCategory !== category)
-      );
-    }
-  }
-
-  const displayedItems = productsAll
-    .filter(
-      (product: any) =>
-        selectedCategories.length === 0 ||
-        selectedCategories.includes(product.category as never)
-    )
-    .filter((product: any) =>
-      product.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
-    )
-    .map((product: any) => (
-      <ProductGridItem key={product.slug} product={product} />
-    ));
+  // console.log(products);
+  // console.log(totalPages);
 
   return (
-    <main className="mx-auto flex justify-center items-center flex-col gap-2">
-      <section className="relative">
-        <input
-          type="text"
-          id="search"
-          className="p-2 bg-gray-50 border-gray-300 rounded-md"
-          placeholder="Buscar Articulos..."
-          onChange={handleSearch}
-        />
-      </section>
-      <section className="flex flex-col md:flex-row mx-auto container max-w-7xl">
-        <article className="space-y-6 p-2 w-full max-w-[12rem]">
-          <h2 className="text-xl font-semibold">Categorias</h2>
-          <aside className="flex sm:flex-col gap-2">
-            <div className="flex flex-row items-center hover:bg-slate-200 rounded transition-all">
-              <input
-                type="checkbox"
-                id="men"
-                className="mr-1 w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer "
-                onChange={handleCheckbox}
-              />
+    <main className=" flex justify-center items-center flex-col gap-5 mb-10">
+      <section className="bg-white  w-11/12">
+        <div className="container px-6 py-8 mx-auto">
+          <div className="lg:flex lg:-mx-2">
+            <div className="space-y-3 lg:w-1/5 lg:px-2 lg:space-y-4">
+              <a
+                href="#"
+                className="block font-medium text-gray-500  hover:underline"
+              >
+                Jackets & Coats
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500  hover:underline"
+              >
+                Hoodies
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-blue-600  hover:underline"
+              >
+                T-shirts & Vests
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500   hover:underline"
+              >
+                Shirts
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500   hover:underline"
+              >
+                Blazers & Suits
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500   hover:underline"
+              >
+                Jeans
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500   hover:underline"
+              >
+                Trousers
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500   hover:underline"
+              >
+                Orden
+              </a>
+              <a
+                href="#"
+                className="block font-medium text-gray-500   hover:underline"
+              >
+                Underwear
+              </a>
+            </div>
 
-              <label htmlFor="men">Hombre</label>
+            <div className="mt-6 lg:mt-0 lg:px-2 lg:w-4/5 ">
+              <div className="flex items-center justify-between text-sm tracking-widest uppercase ">
+                <p className="text-gray-500  ">{products.length} Items</p>
+
+                <div className="pt-2 relative mx-auto text-gray-600">
+                  <input
+                    className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+                    type="search"
+                    name="search"
+                    placeholder="Buscar"
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-0 top-0 mt-5 mr-4"
+                    // onClick={onBuscar}
+                  >
+                    <IoSearchCircle
+                      size={40}
+                      className="absolute -top-3 -left-6 cursor-pointer  hover:size-12 hover:-left-7 hover:-top-4 transition"
+                    />
+                  </button>
+                </div>
+
+                <div className="flex items-center">
+                  <p className="text-gray-500  ">Orden</p>
+                  <select className="font-medium text-gray-700 bg-transparent  focus:outline-none">
+                    <option value="#">Recomendado</option>
+                    <option value="#">Cantidad</option>
+                    <option value="#">Precio</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-8 mt-8 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1">
+                <div className="flex flex-col items-center justify-center w-full">
+                  <ProductGrid products={products} />
+
+                  <Pagination totalPages={totalPages} />
+                </div>
+              </div>
             </div>
-            <div className="flex flex-row items-center hover:bg-slate-200 rounded">
-              <input
-                type="checkbox"
-                id="women"
-                className="mr-1 w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer"
-                onChange={handleCheckbox}
-              />
-              <label htmlFor="women">Mujeres</label>
-            </div>
-            <div className="flex flex-row items-center hover:bg-slate-200 rounded">
-              <input
-                type="checkbox"
-                id="kid"
-                className="mr-1  w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer"
-                onChange={handleCheckbox}
-              />
-              <label htmlFor="kid">Niños</label>
-            </div>
-          </aside>
-          <div className="mt-10">
-            <h2 className="text-xl font-semibold">Precios</h2>
-            <aside className="flex sm:flex-col gap-2 mt-4 ">
-              <div className="flex flex-row items-center hover:bg-slate-200 rounded">
-                <input
-                  type="checkbox"
-                  id="CategoryOne"
-                  className="mr-1  w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer"
-                  onChange={handleCheckbox}
-                />
-                <label htmlFor="CategoryOne">Mayor a 10.000</label>
-              </div>
-              <div className="flex flex-row items-center hover:bg-slate-200 rounded">
-                <input
-                  type="checkbox"
-                  id="CategoryOne"
-                  className="mr-1  w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer"
-                  onChange={handleCheckbox}
-                />
-                <label htmlFor="CategoryOne">Mayor a 20.000</label>
-              </div>
-              <div className="flex flex-row items-center hover:bg-slate-200 rounded">
-                <input
-                  type="checkbox"
-                  id="CategoryOne"
-                  className="mr-1  w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer"
-                  onChange={handleCheckbox}
-                />
-                <label htmlFor="CategoryOne">Mayor a 50.000</label>
-              </div>
-              <div className="flex flex-row items-center hover:bg-slate-200 rounded">
-                <input
-                  type="checkbox"
-                  id="CategoryOne"
-                  className="mr-1  w-4 h-4 border-2 border-blue-500 rounded-sm bg-white cursor-pointer"
-                  onChange={handleCheckbox}
-                />
-                <label htmlFor="CategoryOne">Mayor a 100.000</label>
-              </div>
-            </aside>
           </div>
-        </article>
-
-        <div>
-          <article className=" mb-20 w-full mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 place-content-center p-2">
-            {displayedItems}
-          </article>
-          <Pagination totalPages={totalPaginas} />
         </div>
       </section>
     </main>

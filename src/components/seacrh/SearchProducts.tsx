@@ -1,14 +1,18 @@
 "use client";
 import { IoSearchCircle } from "react-icons/io5";
 
-export const SearchProducts = () => {
+interface Props {
+  CantReg: number;
+}
+
+export const SearchProducts = ({ CantReg }: Props) => {
   const onBuscar = () => {
     console.log("Boton de buscar");
   };
 
   return (
     <div className="flex flex-wrap items-center justify-between text-sm tracking-widest uppercase ">
-      <p className="text-gray-500  ">50 Items</p>
+      <p className="text-gray-500  ">{CantReg} Items</p>
 
       <div className="pt-2 relative mx-auto text-gray-600 mb-2">
         <input

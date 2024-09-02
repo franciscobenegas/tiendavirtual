@@ -25,12 +25,12 @@ export const TopMenu = () => {
           <span className={`${titleFont.className} antialiased font-bold`}>
             Tienda
           </span>
-          <span> | Shop</span>
+          <span> | OnLine</span>
         </Link>
       </div>
 
       {/* Center Menu */}
-      <div className="hidden sm:block">
+      {/* <div className="hidden sm:block">
         <Link
           className="m-2 p-2 rounded-md transition-all hover:bg-gray-100"
           href="/gender/men"
@@ -49,12 +49,12 @@ export const TopMenu = () => {
         >
           Niños
         </Link>
-      </div>
+      </div> */}
 
       {/* Search, Cart, Menu */}
       <div className="flex items-center">
         <Link href="/search" className="mx-2">
-          <IoSearchOutline className="w-5 h-5" />
+          <IoSearchOutline className="w-5 h-5 hover:bg-gray-200  rounded-md transition-all" />
         </Link>
 
         <Link
@@ -67,7 +67,7 @@ export const TopMenu = () => {
                 {totalItemsInCart}
               </span>
             )}
-            <IoCartOutline className="w-5 h-5" />
+            <IoCartOutline className="w-5 h-5 hover:bg-gray-200  rounded-md transition-all" />
           </div>
         </Link>
 

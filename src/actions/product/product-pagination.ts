@@ -7,12 +7,14 @@ interface PaginationOptions {
   page?: number;
   take?: number;
   gender?: Gender;
+  buscar?: string;
 }
 
 export const getPaginatedProductsWithImages = async ({
   page = 1,
   take = 12,
   gender,
+  buscar,
 }: PaginationOptions) => {
   if (isNaN(Number(page))) page = 1;
   if (page < 1) page = 1;
@@ -33,6 +35,25 @@ export const getPaginatedProductsWithImages = async ({
       //! Por género
       where: {
         gender: gender,
+        title: {
+          contains: buscar,
+          mode: "insensitive",
+        },
+
+        // AND: [
+        //   {
+        //     description: {
+        //       contains: txtBuscar,
+        //       mode: "insensitive",
+        //     },
+        //   },
+        //   {
+        //     title: {
+        //       contains: txtBuscar,
+        //       mode: "insensitive",
+        //     },
+        //   },
+        // ],
       },
     });
 

@@ -7,17 +7,19 @@ interface Props {
   searchParams: {
     page?: string;
     gender?: string;
+    buscar?: string;
   };
 }
 
 export default async function SearchPage({ searchParams }: Props) {
-  const { gender } = searchParams;
+  const { gender, buscar } = searchParams;
 
   const page = searchParams.page ? parseInt(searchParams.page) : 1;
   const { products, currentPage, totalPages } =
     await getPaginatedProductsWithImages({
       page,
       gender: gender as Gender,
+      buscar,
     });
 
   const CantReg = products.length;

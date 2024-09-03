@@ -1,32 +1,27 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 
 import { authenticate } from "@/actions";
 import { IoInformationOutline } from "react-icons/io5";
-import clsx from 'clsx';
+import clsx from "clsx";
 // import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
-
-
   // const router = useRouter();
   const [state, dispatch] = useFormState(authenticate, undefined);
-  
-  console.log(state);
+
+  // console.log(state);
 
   useEffect(() => {
-    if ( state === 'Success' ) {
+    if (state === "Success") {
       // redireccionar
       // router.replace('/');
-      window.location.replace('/');
+      window.location.replace("/");
     }
-
-  },[state]);
-
-
+  }, [state]);
 
   return (
     <form action={dispatch} className="flex flex-col">
@@ -59,7 +54,7 @@ export const LoginForm = () => {
         )}
       </div>
 
-        <LoginButton />
+      <LoginButton />
       {/* <button type="submit" className="btn-primary">
         Ingresar
       </button> */}
@@ -82,14 +77,14 @@ function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button 
-      type="submit" 
-      className={ clsx({
+    <button
+      type="submit"
+      className={clsx({
         "btn-primary": !pending,
-        "btn-disabled": pending
+        "btn-disabled": pending,
       })}
-      disabled={ pending }
-      >
+      disabled={pending}
+    >
       Ingresar
     </button>
   );

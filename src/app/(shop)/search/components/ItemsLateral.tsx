@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const ItemsLateral = ({ gender }: Props) => {
-  console.log("ItemGender: ", gender);
+  // console.log("ItemGender: ", gender);
 
   return (
     <div className="space-y-3 lg:w-1/5 lg:px-2 lg:space-y-4 mt-0 md:mt-24">

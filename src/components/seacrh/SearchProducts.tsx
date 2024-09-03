@@ -1,4 +1,7 @@
 "use client";
+//import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { IoSearchCircle } from "react-icons/io5";
 
 interface Props {
@@ -6,8 +9,13 @@ interface Props {
 }
 
 export const SearchProducts = ({ CantReg }: Props) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
   const onBuscar = () => {
-    console.log("Boton de buscar");
+    if (searchTerm.trim().length <= 0) {
+      return;
+    }
+    router.push(`/search?buscar=${searchTerm}`);
   };
 
   return (
@@ -17,9 +25,11 @@ export const SearchProducts = ({ CantReg }: Props) => {
       <div className="pt-2 relative mx-auto text-gray-600 mb-2">
         <input
           className="border-2 border-gray-300 bg-white h-10 px-5  pr-16 rounded-lg text-sm focus:outline-none"
-          type="search"
-          name="search"
-          placeholder="Buscar"
+          type="text"
+          name="searchTerm"
+          value={searchTerm}
+          onChange={({ target }) => setSearchTerm(target.value)}
+          placeholder="Buscar producto..."
         />
         <button
           type="submit"
